@@ -19,7 +19,11 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $user = User::create($request->validated());
-        return new UserResource($user);
+
+        return response()->json([
+            'message' => "User created successfully.",
+            'user' => new UserResource($user)
+        ], 201);
     }
 
     public function show(User $user)
@@ -30,12 +34,19 @@ class UserController extends Controller
     public function update(UserStoreRequest $request, User $user)
     {
         $user->update($request->validated());
-        return new UserResource($user);
+
+        return response()->json([
+            'message' => "User updated successfully.",
+            'user' => new UserResource($user)
+        ]);
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return response(null, 204);
+
+        return response()->json([
+            'message' => "User deleted successfully!",
+        ], 204);
     }
 }
